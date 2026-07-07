@@ -51,6 +51,15 @@
     <ClCompile Include="Utility\BMPSaver.cpp">
       <Filter>Исходные файлы\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Core\HashRadianceFieldGrid.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\RegularRadianceFieldGrid.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\RadianceFieldsUtility.cpp">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -64,6 +73,27 @@
     </ClInclude>
     <ClInclude Include="Utility\BMPSaver.h">
       <Filter>Файлы заголовков\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Cell.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\HashRadianceFieldGrid.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\RegularRadianceFieldGrid.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CellChunkView.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\RadianceFieldsUtility.h">
+      <Filter>Файлы заголовков\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DataTypes.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Float3Hasher.h">
+      <Filter>Файлы заголовков\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
