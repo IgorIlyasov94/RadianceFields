@@ -5,16 +5,16 @@ using namespace Utility;
 
 Graphics::VkRenderer::VkRenderer(const std::string& applicationName)
 {
-#ifdef NDEBUG
-    const bool enableValidationLayer = false;
-#else
-    const bool enableValidationLayer = true;
-#endif
-
-    std::vector<const char*> enabledLayers = CreateEnabledLayersData(enableValidationLayer);
-    std::vector<const char*> enabledExtensions = CreateEnabledExtensionsData();
+    std::vector<const char*> enabledLayers = CreateEnabledLayersData(ENABLE_VALIDATION_LAYER);
+    std::vector<const char*> enabledExtensions = CreateEnabledExtensionsData(ENABLE_VALIDATION_LAYER);
 
     vulkanInstance = CreateVulkanInstance(applicationName, enabledLayers, enabledExtensions);
+
+    if constexpr (ENABLE_VALIDATION_LAYER)
+    {
+        CreateDebugReportCallback(vulkanInstance, DebugReportCallbackFunc, &debugReportCallback);
+    }
+
 
 }
 
@@ -30,67 +30,73 @@ std::vector<const char*> Graphics::VkRenderer::CreateEnabledLayersData(bool enab
 {
     std::vector<const char*> enabledLayers;
 
-    uint32_t layerNumber;
-    vkEnumerateInstanceLayerProperties(&layerNumber, nullptr);
-
-    std::vector<VkLayerProperties> layerProperties(layerNumber);
-    vkEnumerateInstanceLayerProperties(&layerNumber, layerProperties.data());
-
-    bool layerFound = false;
-
-    for (const VkLayerProperties& properties : layerProperties)
+    if (enableValidationLayer)
     {
-        if (std::string_view(properties.layerName) == KHRONOS_VALIDATION_LAYER_NAME)
-        {
-            enabledLayers.push_back(KHRONOS_VALIDATION_LAYER_NAME.data());
+        uint32_t layerNumber;
+        vkEnumerateInstanceLayerProperties(&layerNumber, nullptr);
 
-            layerFound = true;
-            break;
+        std::vector<VkLayerProperties> layerProperties(layerNumber);
+        vkEnumerateInstanceLayerProperties(&layerNumber, layerProperties.data());
+
+        bool layerFound = false;
+
+        for (const VkLayerProperties& properties : layerProperties)
+        {
+            if (std::string_view(properties.layerName) == KHRONOS_VALIDATION_LAYER_NAME)
+            {
+                enabledLayers.push_back(KHRONOS_VALIDATION_LAYER_NAME.data());
+
+                layerFound = true;
+                break;
+            }
+
+            if (std::string_view(properties.layerName) == LUNARG_VALIDATION_LAYER_NAME)
+            {
+                enabledLayers.push_back(LUNARG_VALIDATION_LAYER_NAME.data());
+
+                layerFound = true;
+                break;
+            }
         }
 
-        if (std::string_view(properties.layerName) == LUNARG_VALIDATION_LAYER_NAME)
+        if (!layerFound)
         {
-            enabledLayers.push_back(LUNARG_VALIDATION_LAYER_NAME.data());
-
-            layerFound = true;
-            break;
+            RadianceFieldsUtility::ThrowRunTimeError("Standard validation layer isn't supported\n");
         }
-    }
-
-    if (!layerFound)
-    {
-        RadianceFieldsUtility::ThrowRunTimeError("Standard validation layer isn't supported\n");
     }
 
     return enabledLayers;
 }
 
-std::vector<const char*> Graphics::VkRenderer::CreateEnabledExtensionsData() const
+std::vector<const char*> Graphics::VkRenderer::CreateEnabledExtensionsData(bool enableValidationLayer) const
 {
     std::vector<const char*> enabledExtensions;
 
-    uint32_t extensionNumber;
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionNumber, nullptr);
-
-    std::vector<VkExtensionProperties> extensionProperties(extensionNumber);
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionNumber, extensionProperties.data());
-
-    bool extensionFound = false;
-
-    for (const VkExtensionProperties& properties : extensionProperties)
+    if (enableValidationLayer)
     {
-        if (std::string_view(properties.extensionName) == std::string_view("VK_EXT_DEBUG_REPORT_EXTENSION_NAME"))
+        uint32_t extensionNumber;
+        vkEnumerateInstanceExtensionProperties(nullptr, &extensionNumber, nullptr);
+
+        std::vector<VkExtensionProperties> extensionProperties(extensionNumber);
+        vkEnumerateInstanceExtensionProperties(nullptr, &extensionNumber, extensionProperties.data());
+
+        bool extensionFound = false;
+
+        for (const VkExtensionProperties& properties : extensionProperties)
         {
-            enabledExtensions.push_back(DEBUG_REPORT_EXTENSION_NAME.data());
+            if (std::string_view(properties.extensionName) == std::string_view("VK_EXT_DEBUG_REPORT_EXTENSION_NAME"))
+            {
+                enabledExtensions.push_back(DEBUG_REPORT_EXTENSION_NAME.data());
 
-            extensionFound = true;
-            break;
+                extensionFound = true;
+                break;
+            }
         }
-    }
 
-    if (!extensionFound)
-    {
-        RadianceFieldsUtility::ThrowRunTimeError("Extension VK_EXT_DEBUG_REPORT_EXTENSION_NAME isn't supported\n");
+        if (!extensionFound)
+        {
+            RadianceFieldsUtility::ThrowRunTimeError("Extension VK_EXT_DEBUG_REPORT_EXTENSION_NAME isn't supported\n");
+        }
     }
 
     return enabledExtensions;
@@ -119,6 +125,29 @@ VkInstance Graphics::VkRenderer::CreateVulkanInstance(const std::string& applica
 	return instance;
 }
 
+void Graphics::VkRenderer::CreateDebugReportCallback(VkInstance instance, DebugReportCallbackFuncType callback,
+    VkDebugReportCallbackEXT* reportCallback) const
+{
+    VkDebugReportCallbackCreateInfoEXT createInfo{};
+    createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CREATE_INFO_EXT;
+    createInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT |
+        VK_DEBUG_REPORT_WARNING_BIT_EXT |
+        VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT;
+
+    createInfo.pfnCallback = callback;
+
+    auto vkCreateDebugReportCallbackEXT = reinterpret_cast<PFN_vkCreateDebugReportCallbackEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT"));
+
+    if (vkCreateDebugReportCallbackEXT == nullptr)
+    {
+        RadianceFieldsUtility::ThrowRunTimeError("Couldn't load vkCreateDebugReportCallbackEXT");
+    }
+    else
+    {
+        VkAssert(vkCreateDebugReportCallbackEXT(instance, &createInfo, nullptr, reportCallback));
+    }
+}
+
 inline void Graphics::VkRenderer::VkAssert(VkResult result, const std::source_location location) const
 {
     if (result != VK_SUCCESS)
@@ -127,4 +156,12 @@ inline void Graphics::VkRenderer::VkAssert(VkResult result, const std::source_lo
             location.file_name(), location.function_name(), location.line());
         assert(result == VK_SUCCESS);
     }
+}
+
+VKAPI_ATTR VkBool32 VKAPI_CALL Graphics::VkRenderer::DebugReportCallbackFunc(VkDebugReportFlagsEXT flags,
+    VkDebugReportObjectTypeEXT objectType, uint64_t object, size_t location, int32_t messageCode,
+    const char* layerPrefix, const char* message, void* userData)
+{
+    std::printf("Debug Report %s: %s\n", layerPrefix, message);
+    return VK_FALSE;
 }
