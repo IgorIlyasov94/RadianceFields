@@ -45,7 +45,7 @@
     <ClCompile Include="RadianceFields.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\VkDevice.cpp">
+    <ClCompile Include="Graphics\VkRenderer.cpp">
       <Filter>Исходные файлы\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Utility\BMPSaver.cpp">
@@ -60,6 +60,9 @@
     <ClCompile Include="Utility\RadianceFieldsUtility.cpp">
       <Filter>Исходные файлы\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\VoxelGridLoader.cpp">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -68,7 +71,7 @@
     <ClInclude Include="Includes.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\VKDevice.h">
+    <ClInclude Include="Graphics\VkRenderer.h">
       <Filter>Файлы заголовков\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Utility\BMPSaver.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="Core\Float3Hasher.h">
       <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\VoxelGridLoader.h">
+      <Filter>Файлы заголовков\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

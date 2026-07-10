@@ -16,6 +16,8 @@ namespace Core
 		~HashRadianceFieldGrid();
 
 	private:
+		inline uint32_t GetLinearIndex(const uint3& chunkCoord) const noexcept;
+
 		std::unordered_map<CellChunkView, uint64_t, Float3Hasher> chunkIndices;
 	};
 }
