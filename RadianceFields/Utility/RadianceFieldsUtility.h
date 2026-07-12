@@ -14,15 +14,9 @@ namespace Utility
 			std::copy(sourceData, sourceData + BasisSize, destinationData);
 		};
 
-		inline static void ThrowRunTimeError(const char* message,
-			const std::source_location location = std::source_location::current())
-		{
-			std::stringstream strout;
-			strout << "runtime_error in file" << location.file_name();
-			strout << ", method " << location.function_name();
-			strout << ", line " << location.line() << ": " << message << std::endl;
+		inline static float4x4 BuildViewMatrix(const float3& position, const float3& direction, const float3& upVector);
 
-			throw std::runtime_error(strout.str().c_str());
-		};
+		inline static void ThrowRunTimeError(const char* message,
+			const std::source_location location = std::source_location::current());
 	};
 }

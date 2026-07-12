@@ -3,7 +3,7 @@
 
 int main()
 {
-	Main::Application application;
+	Main::Application application{};
 
 	try
 	{

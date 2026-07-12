@@ -3,7 +3,7 @@
 
 using namespace Utility;
 
-Graphics::VkRenderer::VkRenderer(const std::string& applicationName)
+Graphics::VkRenderer::VkRenderer(const std::string_view& applicationName)
 {
     std::vector<const char*> enabledLayers = CreateEnabledLayersData(ENABLE_VALIDATION_LAYER);
     std::vector<const char*> enabledExtensions = CreateEnabledExtensionsData(ENABLE_VALIDATION_LAYER);
@@ -102,12 +102,12 @@ std::vector<const char*> Graphics::VkRenderer::CreateEnabledExtensionsData(bool 
     return enabledExtensions;
 }
 
-VkInstance Graphics::VkRenderer::CreateVulkanInstance(const std::string& applicationName,
+VkInstance Graphics::VkRenderer::CreateVulkanInstance(const std::string_view& applicationName,
     const std::vector<const char*>& enabledLayers, const std::vector<const char*>& enabledExtensions) const
 {
     VkApplicationInfo applicationInfo{};
     applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-    applicationInfo.pApplicationName = applicationName.c_str();
+    applicationInfo.pApplicationName = applicationName.data();
     applicationInfo.pEngineName = "EngineName";
     applicationInfo.apiVersion = VK_API_VERSION_1_0;
 

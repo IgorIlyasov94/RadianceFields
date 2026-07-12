@@ -63,6 +63,15 @@
     <ClCompile Include="Utility\VoxelGridLoader.cpp">
       <Filter>Исходные файлы\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Core\CpuRenderer.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Camera.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -100,6 +109,24 @@
     </ClInclude>
     <ClInclude Include="Utility\VoxelGridLoader.h">
       <Filter>Файлы заголовков\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CpuRenderer.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\BoundingBox.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Camera.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Ray.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Viewport.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math.h">
+      <Filter>Файлы заголовков\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

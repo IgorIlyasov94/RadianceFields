@@ -136,7 +136,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Core\Camera.cpp" />
+    <ClCompile Include="Core\CpuRenderer.cpp" />
     <ClCompile Include="Core\HashRadianceFieldGrid.cpp" />
+    <ClCompile Include="Core\Math.cpp" />
     <ClCompile Include="Core\RegularRadianceFieldGrid.cpp" />
     <ClCompile Include="Graphics\VkRenderer.cpp" />
     <ClCompile Include="RadianceFields.cpp" />
@@ -146,12 +149,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Core\BoundingBox.h" />
+    <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\Cell.h" />
     <ClInclude Include="Core\CellChunkView.h" />
+    <ClInclude Include="Core\CpuRenderer.h" />
     <ClInclude Include="Core\DataTypes.h" />
     <ClInclude Include="Core\Float3Hasher.h" />
     <ClInclude Include="Core\HashRadianceFieldGrid.h" />
+    <ClInclude Include="Core\Math.h" />
+    <ClInclude Include="Core\Ray.h" />
     <ClInclude Include="Core\RegularRadianceFieldGrid.h" />
+    <ClInclude Include="Core\Viewport.h" />
     <ClInclude Include="Graphics\VkRenderer.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="Utility\BMPSaver.h" />

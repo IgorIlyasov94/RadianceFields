@@ -8,7 +8,7 @@ namespace Graphics
 	class VkRenderer
 	{
 	public:
-		VkRenderer(const std::string& applicationName);
+		VkRenderer(const std::string_view& applicationName);
 		~VkRenderer();
 
 	private:
@@ -21,7 +21,7 @@ namespace Graphics
 		std::vector<const char*> CreateEnabledLayersData(bool enableValidationLayer) const;
 		std::vector<const char*> CreateEnabledExtensionsData(bool enableValidationLayer) const;
 
-		VkInstance CreateVulkanInstance(const std::string& applicationName,
+		VkInstance CreateVulkanInstance(const std::string_view& applicationName,
 			const std::vector<const char*>& enabledLayers,
 			const std::vector<const char*>& enabledExtensions) const;
 
