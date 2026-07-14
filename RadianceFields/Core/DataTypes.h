@@ -346,8 +346,8 @@ bool operator==(const v2& left, const v2& right)
 	return true;
 }
 
-template<Vector3 v3>
-bool operator!=(const v3& left, const v3& right)
+template<Vector2 v2>
+bool operator!=(const v2& left, const v2& right)
 {
 	return !(left == right);
 }
@@ -478,7 +478,7 @@ v3 operator/(const v3& p0, const v1& p1) noexcept
 template<Vector3 v3, Scalar v1>
 v3 operator/(const v1& p0, const v3& p1) noexcept
 {
-	v2 p;
+	v3 p;
 	p.x = static_cast<decltype(v3::x)>(p0 / p1.x);
 	p.y = static_cast<decltype(v3::y)>(p0 / p1.y);
 	p.z = static_cast<decltype(v3::z)>(p0 / p1.z);

@@ -23,6 +23,6 @@ namespace Core
 		std::vector<float> gHarmonics;
 		std::vector<float> bHarmonics;
 
-		std::unordered_map<CellChunkView, uint64_t, Float3Hasher> chunkIndices;
+		std::unordered_map<float3, CellChunkView, Float3Hasher> chunkIndices;
 	};
 }

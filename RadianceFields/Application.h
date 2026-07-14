@@ -16,6 +16,15 @@ namespace Main
 		static constexpr std::string_view APPLICATION_NAME = "Radiance Fields";
 
 	private:
-		Graphics::VkRenderer renderer;
+		Application(const Application&) = delete;
+		Application(Application&&) = delete;
+		Application& operator=(const Application&) = delete;
+		Application& operator=(Application&&) = delete;
+
+		static constexpr std::string_view MODEL_PATH = "Resources/VoxelGrid.bin";
+		static constexpr std::string_view CPU_IMAGE_PATH = "CpuRenderResult.bmp";
+		static constexpr std::string_view GPU_IMAGE_PATH = "GpuRenderResult.bmp";
+
+		//Graphics::VkRenderer renderer;
 	};
 }

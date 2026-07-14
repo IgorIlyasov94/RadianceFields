@@ -3,6 +3,8 @@
 #include "../Includes.h"
 #include <vulkan/vulkan.h>
 
+#pragma comment(lib, "vulkan-1.lib")
+
 namespace Graphics
 {
 	class VkRenderer

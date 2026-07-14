@@ -10,7 +10,7 @@ Core::CpuRenderer::~CpuRenderer()
 
 }
 
-void Core::CpuRenderer::RenderVoxels()
+void Core::CpuRenderer::RenderVoxels(std::vector<uint8_t>& resultImage)
 {
 
 }

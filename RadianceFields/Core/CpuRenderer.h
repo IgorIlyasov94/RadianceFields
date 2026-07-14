@@ -12,7 +12,7 @@ namespace Core
 		CpuRenderer();
 		~CpuRenderer();
 
-		void RenderVoxels();
+		void RenderVoxels(std::vector<uint8_t>& resultImage);
 
 	private:
 	};
