@@ -128,5 +128,8 @@
     <ClInclude Include="Core\GridInfo.h">
       <Filter>Файлы заголовков\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\IRadianceFieldGrid.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

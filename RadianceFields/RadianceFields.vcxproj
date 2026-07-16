@@ -157,6 +157,7 @@
     <ClInclude Include="Core\Float3Hasher.h" />
     <ClInclude Include="Core\GridInfo.h" />
     <ClInclude Include="Core\HashRadianceFieldGrid.h" />
+    <ClInclude Include="Core\IRadianceFieldGrid.h" />
     <ClInclude Include="Core\Math.h" />
     <ClInclude Include="Core\Ray.h" />
     <ClInclude Include="Core\RegularRadianceFieldGrid.h" />

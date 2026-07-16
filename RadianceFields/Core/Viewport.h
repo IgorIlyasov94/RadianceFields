@@ -8,8 +8,8 @@ namespace Core
 	struct Viewport
 	{
 	public:
-		uint2 size;
-		float zNear;
-		float zFar;
+		uint2 Size;
+		float ZNear;
+		float ZFar;
 	};
 }

@@ -15,6 +15,16 @@ Core::HashRadianceFieldGrid::~HashRadianceFieldGrid()
 	chunkIndices.clear();
 }
 
+float Core::HashRadianceFieldGrid::GetVisibleDensity(const Ray& ray)
+{
+	return 0.0f;
+}
+
+float3 Core::HashRadianceFieldGrid::GetVisibleColor(const Ray& ray)
+{
+	return {};
+}
+
 inline uint32_t Core::HashRadianceFieldGrid::GetLinearIndex(const uint3& chunkCoord) const noexcept
 {
 	uint32_t index = chunkCoord.x;

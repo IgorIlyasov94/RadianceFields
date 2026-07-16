@@ -18,3 +18,5 @@
 #include <concepts>
 #include <cmath>
 #include <numeric>
+#include <memory>
+#include <thread>

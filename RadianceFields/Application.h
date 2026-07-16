@@ -25,6 +25,7 @@ namespace Main
 		static constexpr std::string_view CPU_IMAGE_PATH = "CpuRenderResult.bmp";
 		static constexpr std::string_view GPU_IMAGE_PATH = "GpuRenderResult.bmp";
 
+		Core::CpuRenderer cpuRenderer;
 		//Graphics::VkRenderer renderer;
 	};
 }
