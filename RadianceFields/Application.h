@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Includes.h"
+#include "Core/CpuRenderer.h"
 #include "Graphics/VkRenderer.h"
 
 namespace Main
@@ -14,6 +15,7 @@ namespace Main
 		void Run();
 
 		static constexpr std::string_view APPLICATION_NAME = "Radiance Fields";
+		static constexpr uint2 IMAGE_SIZE = uint2(800u, 800u);
 
 	private:
 		Application(const Application&) = delete;

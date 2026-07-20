@@ -15,8 +15,8 @@ namespace Core
 
 		~RegularRadianceFieldGrid() override;
 
-		float GetVisibleDensity(const Ray& ray) override;
-		float3 GetVisibleColor(const Ray& ray) override;
+		float SampleDensity(const Ray& ray) override;
+		float3 SampleColor(const Ray& ray) override;
 
 	private:
 		std::vector<float> densities;

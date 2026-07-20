@@ -42,12 +42,12 @@ Core::RegularRadianceFieldGrid::~RegularRadianceFieldGrid()
 	bHarmonics.shrink_to_fit();
 }
 
-float Core::RegularRadianceFieldGrid::GetVisibleDensity(const Ray& ray)
+float Core::RegularRadianceFieldGrid::SampleDensity(const Ray& ray)
 {
 	return 0.0f;
 }
 
-float3 Core::RegularRadianceFieldGrid::GetVisibleColor(const Ray& ray)
+float3 Core::RegularRadianceFieldGrid::SampleColor(const Ray& ray)
 {
 	return {};
 }

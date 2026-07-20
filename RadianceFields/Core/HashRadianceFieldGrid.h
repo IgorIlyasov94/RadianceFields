@@ -16,8 +16,8 @@ namespace Core
 
 		~HashRadianceFieldGrid() override;
 
-		float GetVisibleDensity(const Ray& ray) override;
-		float3 GetVisibleColor(const Ray& ray) override;
+		float SampleDensity(const Ray& ray) override;
+		float3 SampleColor(const Ray& ray) override;
 
 	private:
 		inline uint32_t GetLinearIndex(const uint3& chunkCoord) const noexcept;

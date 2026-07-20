@@ -7,7 +7,7 @@ namespace Utility
 	class BMPSaver
 	{
 	public:
-		static void Save(std::filesystem::path path, const std::vector<uint8_t>& imageData);
+		static void Save(std::filesystem::path path, const std::vector<float>& imageData);
 	private:
 		BMPSaver() = delete;
 		BMPSaver(const BMPSaver&) = delete;

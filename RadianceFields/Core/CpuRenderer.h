@@ -2,8 +2,10 @@
 
 #include "../Includes.h"
 #include "IRadianceFieldGrid.h"
+#include "Camera.h"
 #include "Viewport.h"
 #include "DataTypes.h"
+#include "GridSampleMethod.h"
 
 namespace Core
 {
@@ -13,17 +15,20 @@ namespace Core
 		CpuRenderer();
 		~CpuRenderer();
 
+		void SetCamera(const Camera& camera);
 		void SetViewport(const Viewport& viewport);
 		void SetTargetImage(std::vector<float>& target);
 
 		void SetGrid(IRadianceFieldGrid* grid) noexcept;
 
-		void DispatchRays(uint2 groupNumber, uint2 groupInnerLoopSize);
+		void DispatchRays(GridSampleMethod sampleMethod, bool useMultithreading);
 
 	private:
 		inline void ValidateViewport(const Viewport& viewport) const;
-		inline uint32_t CalculateTotalThreadNumber(const Viewport& viewport, uint2 groupNumber) const;
 
+		static const uint32_t MIN_THREAD_NUMBER = 1u;
+
+		Camera _camera;
 		Viewport _viewport;
 		IRadianceFieldGrid* _grid;
 		float* targetImageAddress;

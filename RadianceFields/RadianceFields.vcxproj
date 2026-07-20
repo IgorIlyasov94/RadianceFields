@@ -139,7 +139,6 @@
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\CpuRenderer.cpp" />
     <ClCompile Include="Core\HashRadianceFieldGrid.cpp" />
-    <ClCompile Include="Core\Math.cpp" />
     <ClCompile Include="Core\RegularRadianceFieldGrid.cpp" />
     <ClCompile Include="Graphics\VkRenderer.cpp" />
     <ClCompile Include="RadianceFields.cpp" />
@@ -156,6 +155,7 @@
     <ClInclude Include="Core\DataTypes.h" />
     <ClInclude Include="Core\Float3Hasher.h" />
     <ClInclude Include="Core\GridInfo.h" />
+    <ClInclude Include="Core\GridSampleMethod.h" />
     <ClInclude Include="Core\HashRadianceFieldGrid.h" />
     <ClInclude Include="Core\IRadianceFieldGrid.h" />
     <ClInclude Include="Core\Math.h" />

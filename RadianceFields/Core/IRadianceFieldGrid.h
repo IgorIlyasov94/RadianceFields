@@ -11,7 +11,7 @@ namespace Core
 	public:
 		virtual ~IRadianceFieldGrid() = 0 {};
 
-		virtual float GetVisibleDensity(const Ray& ray) = 0;
-		virtual float3 GetVisibleColor(const Ray& ray) = 0;
+		virtual float SampleDensity(const Ray& ray) = 0;
+		virtual float3 SampleColor(const Ray& ray) = 0;
 	};
 }

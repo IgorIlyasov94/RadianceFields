@@ -15,12 +15,12 @@ Core::HashRadianceFieldGrid::~HashRadianceFieldGrid()
 	chunkIndices.clear();
 }
 
-float Core::HashRadianceFieldGrid::GetVisibleDensity(const Ray& ray)
+float Core::HashRadianceFieldGrid::SampleDensity(const Ray& ray)
 {
 	return 0.0f;
 }
 
-float3 Core::HashRadianceFieldGrid::GetVisibleColor(const Ray& ray)
+float3 Core::HashRadianceFieldGrid::SampleColor(const Ray& ray)
 {
 	return {};
 }

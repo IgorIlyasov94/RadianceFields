@@ -1,7 +1,10 @@
 #include "CpuRenderer.h"
+#include "../Utility/RadianceFieldsUtility.h"
+
+using namespace Utility;
 
 Core::CpuRenderer::CpuRenderer()
-	: _viewport{}, _grid{}, targetImageAddress{}
+	: _camera{}, _viewport{}, _grid{}, targetImageAddress{}
 {
 
 }
@@ -9,6 +12,11 @@ Core::CpuRenderer::CpuRenderer()
 Core::CpuRenderer::~CpuRenderer()
 {
 
+}
+
+void Core::CpuRenderer::SetCamera(const Camera& camera)
+{
+	_camera = camera;
 }
 
 void Core::CpuRenderer::SetViewport(const Viewport& viewport)
@@ -40,7 +48,7 @@ void Core::CpuRenderer::SetGrid(IRadianceFieldGrid* grid) noexcept
 	_grid = grid;
 }
 
-void Core::CpuRenderer::DispatchRays(uint2 groupNumber, uint2 groupInnerLoopSize)
+void Core::CpuRenderer::DispatchRays(GridSampleMethod sampleMethod, bool useMultithreading)
 {
 	if (_grid == nullptr)
 	{
@@ -54,12 +62,65 @@ void Core::CpuRenderer::DispatchRays(uint2 groupNumber, uint2 groupInnerLoopSize
 
 	ValidateViewport(_viewport);
 
-	uint32_t threadSimultaneousNumber = std::thread::hardware_concurrency();
+	uint32_t threadNumber = useMultithreading ? std::thread::hardware_concurrency() : 1u;
+	threadNumber = std::max(threadNumber, MIN_THREAD_NUMBER);
+
 	uint32_t totalRayNumber = _viewport.Size.x * _viewport.Size.y;
-	uint32_t totalThreadNumber = CalculateTotalThreadNumber(_viewport, groupNumber);
+	uint32_t raysPerThread = totalRayNumber / threadNumber;
+	uint32_t raysPerLastThread = raysPerThread + totalRayNumber % threadNumber;
 
-	//std::vector<std::thread> threads;
+	float3 cameraPosition = _camera.Position();
+	float4x4 invViewProjectionMatrix = _camera.GetInvViewProjectionMatrix();
 
+	std::vector<std::thread> threads;
+
+	auto rayTracer = [&](uint32_t startRayIndex, uint32_t endRayIndex)
+		{
+			if (sampleMethod == GridSampleMethod::SAMPLE_DENSITY)
+			{
+				for (uint32_t rayIndex = startRayIndex; rayIndex < endRayIndex; rayIndex++)
+				{
+					uint32_t targetIndex = rayIndex;
+					Ray ray = Ray::Build(rayIndex, cameraPosition, _viewport, invViewProjectionMatrix);
+					float density = _grid->SampleDensity(ray);
+
+					targetImageAddress[targetIndex] = std::max(density, 0.0f);
+				}
+			}
+			else
+			{
+				for (uint32_t rayIndex = startRayIndex; rayIndex < endRayIndex; rayIndex++)
+				{
+					uint32_t targetIndex = rayIndex * 3u;
+					Ray ray = Ray::Build(rayIndex, cameraPosition, _viewport, invViewProjectionMatrix);
+					float3 color = _grid->SampleColor(ray);
+
+					targetImageAddress[targetIndex + 0u] = color.x;
+					targetImageAddress[targetIndex + 1u] = color.y;
+					targetImageAddress[targetIndex + 2u] = color.z;
+				}
+			}
+		};
+
+	uint32_t startRayIndex = 0;
+	uint32_t endRayIndex = threadNumber == 1u ? raysPerThread : raysPerLastThread;
+
+	for (uint32_t threadIndex = 0; threadIndex < threadNumber;)
+	{
+		threads.emplace_back(rayTracer, startRayIndex, endRayIndex);
+
+		threadIndex++;
+		startRayIndex += threadIndex == (threadNumber - 1) ? raysPerThread : raysPerLastThread;
+		endRayIndex += threadIndex == (threadNumber - 1) ? raysPerThread : raysPerLastThread;
+	}
+
+	for (std::thread& thread : threads)
+	{
+		if (thread.joinable())
+		{
+			thread.join();
+		}
+	}
 }
 
 inline void Core::CpuRenderer::ValidateViewport(const Viewport& viewport) const
@@ -70,12 +131,4 @@ inline void Core::CpuRenderer::ValidateViewport(const Viewport& viewport) const
 	{
 		throw std::runtime_error("The Viewport is invalid!");
 	}
-}
-
-inline uint32_t Core::CpuRenderer::CalculateTotalThreadNumber(const Viewport& viewport, uint2 groupNumber) const
-{
-	uint32_t totalThreadNumber = static_cast<uint32_t>(std::ceil(viewport.Size.x / static_cast<float>(groupNumber.x)));
-	totalThreadNumber *= static_cast<uint32_t>(std::ceil(viewport.Size.y / static_cast<float>(groupNumber.y)));
-
-	return totalThreadNumber;
 }

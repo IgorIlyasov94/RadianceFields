@@ -66,9 +66,6 @@
     <ClCompile Include="Core\Camera.cpp">
       <Filter>Исходные файлы\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Math.cpp">
-      <Filter>Исходные файлы\Core</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -129,6 +126,9 @@
       <Filter>Файлы заголовков\Core</Filter>
     </ClInclude>
     <ClInclude Include="Core\IRadianceFieldGrid.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GridSampleMethod.h">
       <Filter>Файлы заголовков\Core</Filter>
     </ClInclude>
   </ItemGroup>
