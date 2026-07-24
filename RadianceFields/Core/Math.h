@@ -8,14 +8,72 @@ namespace Core
 	class Math
 	{
 	public:
-		[[nodiscard]] inline constexpr static float Dot(const float3& vector0, const float3& vector1) noexcept
+		static constexpr float SH_Ylm_0__0 = 0.5000000000000000f * std::numbers::inv_sqrtpi_v<float>;
+
+		static constexpr float SH_Ylm_1_m1 = 0.8660254037844386f * std::numbers::inv_sqrtpi_v<float>;
+		static constexpr float SH_Ylm_1__0 = 0.8660254037844386f * std::numbers::inv_sqrtpi_v<float>;
+		static constexpr float SH_Ylm_1__1 = 0.8660254037844386f * std::numbers::inv_sqrtpi_v<float>;
+
+		static constexpr float SH_Ylm_2_m2 = 1.9364916731037084f * std::numbers::inv_sqrtpi_v<float>;
+		static constexpr float SH_Ylm_2_m1 = 1.9364916731037084f * std::numbers::inv_sqrtpi_v<float>;
+		static constexpr float SH_Ylm_2__0 = 0.5590169943749474f * std::numbers::inv_sqrtpi_v<float>;
+		static constexpr float SH_Ylm_2__1 = 1.9364916731037084f * std::numbers::inv_sqrtpi_v<float>;
+		static constexpr float SH_Ylm_2__2 = 0.9682458365518542f * std::numbers::inv_sqrtpi_v<float>;
+
+		[[nodiscard]] static constexpr float Lerp(const float& scalar0, const float& scalar1, float t) noexcept
+		{
+			float result = scalar0 + (scalar1 - scalar0) * t;
+
+			return result;
+		}
+
+		[[nodiscard]] static constexpr float3 Lerp(const float3& vector0, const float3& vector1, float t) noexcept
+		{
+			float3 result = vector0 + (vector1 - vector0) * t;
+
+			return result;
+		}
+
+		template<Vector3 T>
+		[[nodiscard]] static constexpr T Min(const T& vector0, const T& vector1) noexcept
+		{
+			T result = T(
+				vector0.x < vector1.x ? vector0.x : vector1.x,
+				vector0.y < vector1.y ? vector0.y : vector1.y,
+				vector0.z < vector1.z ? vector0.z : vector1.z);
+
+			return result;
+		}
+
+		template<Vector3 T>
+		[[nodiscard]] static constexpr T Max(const T& vector0, const T& vector1) noexcept
+		{
+			T result = T(
+				vector0.x > vector1.x ? vector0.x : vector1.x,
+				vector0.y > vector1.y ? vector0.y : vector1.y,
+				vector0.z > vector1.z ? vector0.z : vector1.z);
+
+			return result;
+		}
+
+		[[nodiscard]] static constexpr float3 Abs(const float3& vector0) noexcept
+		{
+			float3 result = float3(
+				vector0.x < 0.0f ? -vector0.x : vector0.x,
+				vector0.y < 0.0f ? -vector0.y : vector0.y,
+				vector0.z < 0.0f ? -vector0.z : vector0.z);
+
+			return result;
+		}
+
+		[[nodiscard]] static constexpr float Dot(const float3& vector0, const float3& vector1) noexcept
 		{
 			float result = vector0.x * vector1.x + vector0.y * vector1.y + vector0.z * vector1.z;
 
 			return result;
 		}
 
-		[[nodiscard]] inline constexpr static float Dot(const float4& vector0, const float4& vector1) noexcept
+		[[nodiscard]] static constexpr float Dot(const float4& vector0, const float4& vector1) noexcept
 		{
 			float result = vector0.x * vector1.x + vector0.y * vector1.y + vector0.z * vector1.z + vector0.w * vector1.w;
 
@@ -192,6 +250,40 @@ namespace Core
 				float4(0.0f, 0.0f, -1.0f, 0.0f));
 
 			return projectionMatrix;
+		}
+
+		[[nodiscard]] static constexpr float EvaluateSH9(const float* coeffs, const float3& direction) noexcept
+		{
+			float result = coeffs[0] * SH_Ylm_0__0;
+
+			result += coeffs[1] * SH_Ylm_1_m1 * direction.y;
+			result += coeffs[2] * SH_Ylm_1__0 * direction.z;
+			result += coeffs[3] * SH_Ylm_1__1 * direction.x;
+
+			result += coeffs[4] * SH_Ylm_2_m2 * direction.x * direction.y;
+			result += coeffs[5] * SH_Ylm_2_m1 * direction.y * direction.z;
+			result += coeffs[6] * SH_Ylm_2__0 * (3.0f * direction.z * direction.z - 1.0f);
+			result += coeffs[7] * SH_Ylm_2__1 * direction.x * direction.z;
+			result += coeffs[8] * SH_Ylm_2__2 * (direction.x * direction.x - direction.y * direction.y);
+
+			return result;
+		}
+
+		[[nodiscard]] static constexpr float3 EvaluateSH9(const float3* coeffs, const float3& direction) noexcept
+		{
+			float3 result = coeffs[0] * SH_Ylm_0__0;
+
+			result += coeffs[1] * (SH_Ylm_1_m1 * direction.y);
+			result += coeffs[2] * (SH_Ylm_1__0 * direction.z);
+			result += coeffs[3] * (SH_Ylm_1__1 * direction.x);
+
+			result += coeffs[4] * (SH_Ylm_2_m2 * direction.x * direction.y);
+			result += coeffs[5] * (SH_Ylm_2_m1 * direction.y * direction.z);
+			result += coeffs[6] * (SH_Ylm_2__0 * (3.0f * direction.z * direction.z - 1.0f));
+			result += coeffs[7] * (SH_Ylm_2__1 * direction.x * direction.z);
+			result += coeffs[8] * (SH_Ylm_2__2 * (direction.x * direction.x - direction.y * direction.y));
+
+			return result;
 		}
 	};
 }

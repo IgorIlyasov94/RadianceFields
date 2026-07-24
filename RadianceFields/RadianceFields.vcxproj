@@ -153,14 +153,16 @@
     <ClInclude Include="Core\CellChunkView.h" />
     <ClInclude Include="Core\CpuRenderer.h" />
     <ClInclude Include="Core\DataTypes.h" />
+    <ClInclude Include="Core\FilterMode.h" />
     <ClInclude Include="Core\Float3Hasher.h" />
+    <ClInclude Include="Core\Geometry.h" />
     <ClInclude Include="Core\GridInfo.h" />
-    <ClInclude Include="Core\GridSampleMethod.h" />
     <ClInclude Include="Core\HashRadianceFieldGrid.h" />
     <ClInclude Include="Core\IRadianceFieldGrid.h" />
     <ClInclude Include="Core\Math.h" />
     <ClInclude Include="Core\Ray.h" />
     <ClInclude Include="Core\RegularRadianceFieldGrid.h" />
+    <ClInclude Include="Core\SampleMode.h" />
     <ClInclude Include="Core\Viewport.h" />
     <ClInclude Include="Graphics\VkRenderer.h" />
     <ClInclude Include="Includes.h" />

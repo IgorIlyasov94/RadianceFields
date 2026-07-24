@@ -5,7 +5,8 @@
 #include "Camera.h"
 #include "Viewport.h"
 #include "DataTypes.h"
-#include "GridSampleMethod.h"
+#include "SampleMode.h"
+#include "FilterMode.h"
 
 namespace Core
 {
@@ -21,7 +22,7 @@ namespace Core
 
 		void SetGrid(IRadianceFieldGrid* grid) noexcept;
 
-		void DispatchRays(GridSampleMethod sampleMethod, bool useMultithreading);
+		void DispatchRays(SampleMode sampleMode, FilterMode filterMode, bool useMultithreading);
 
 	private:
 		inline void ValidateViewport(const Viewport& viewport) const;

@@ -15,12 +15,7 @@ Core::HashRadianceFieldGrid::~HashRadianceFieldGrid()
 	chunkIndices.clear();
 }
 
-float Core::HashRadianceFieldGrid::SampleDensity(const Ray& ray)
-{
-	return 0.0f;
-}
-
-float3 Core::HashRadianceFieldGrid::SampleColor(const Ray& ray)
+float4 Core::HashRadianceFieldGrid::Sample(const Ray& ray, FilterMode filterMode, SampleMode sampleMode)
 {
 	return {};
 }

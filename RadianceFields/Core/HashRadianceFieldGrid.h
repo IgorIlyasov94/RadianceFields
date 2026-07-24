@@ -4,6 +4,8 @@
 #include "Float3Hasher.h"
 #include "Cell.h"
 #include "CellChunkView.h"
+#include "FilterMode.h"
+#include "SampleMode.h"
 #include "IRadianceFieldGrid.h"
 
 namespace Core
@@ -16,8 +18,7 @@ namespace Core
 
 		~HashRadianceFieldGrid() override;
 
-		float SampleDensity(const Ray& ray) override;
-		float3 SampleColor(const Ray& ray) override;
+		float4 Sample(const Ray& ray, FilterMode filterMode, SampleMode sampleMode) override;
 
 	private:
 		inline uint32_t GetLinearIndex(const uint3& chunkCoord) const noexcept;

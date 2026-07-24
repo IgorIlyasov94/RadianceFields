@@ -11,17 +11,17 @@ namespace Core
 	struct Ray
 	{
 	public:
-		float3 origin;
-		float3 direction;
+		float3 Origin;
+		float3 Direction;
 
 		constexpr Ray()
-			: origin{}, direction{}
+			: Origin{}, Direction{}
 		{
 
 		}
 
-		constexpr Ray(float3 _origin, float3 _direction)
-			: origin(_origin), direction(_direction)
+		constexpr Ray(float3 origin, float3 direction)
+			: Origin(origin), Direction(direction)
 		{
 
 		}

@@ -128,7 +128,13 @@
     <ClInclude Include="Core\IRadianceFieldGrid.h">
       <Filter>Файлы заголовков\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\GridSampleMethod.h">
+    <ClInclude Include="Core\Geometry.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FilterMode.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SampleMode.h">
       <Filter>Файлы заголовков\Core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -48,7 +48,7 @@ void Core::CpuRenderer::SetGrid(IRadianceFieldGrid* grid) noexcept
 	_grid = grid;
 }
 
-void Core::CpuRenderer::DispatchRays(GridSampleMethod sampleMethod, bool useMultithreading)
+void Core::CpuRenderer::DispatchRays(SampleMode sampleMode, FilterMode filterMode, bool useMultithreading)
 {
 	if (_grid == nullptr)
 	{
@@ -76,15 +76,17 @@ void Core::CpuRenderer::DispatchRays(GridSampleMethod sampleMethod, bool useMult
 
 	auto rayTracer = [&](uint32_t startRayIndex, uint32_t endRayIndex)
 		{
-			if (sampleMethod == GridSampleMethod::SAMPLE_DENSITY)
+			if (sampleMode == SampleMode::DENSITY)
 			{
 				for (uint32_t rayIndex = startRayIndex; rayIndex < endRayIndex; rayIndex++)
 				{
-					uint32_t targetIndex = rayIndex;
+					uint32_t targetIndex = rayIndex * 3u;
 					Ray ray = Ray::Build(rayIndex, cameraPosition, _viewport, invViewProjectionMatrix);
-					float density = _grid->SampleDensity(ray);
+					float4 color = _grid->Sample(ray, filterMode, SampleMode::DENSITY);
 
-					targetImageAddress[targetIndex] = std::max(density, 0.0f);
+					targetImageAddress[targetIndex + 0u] = color.x;
+					targetImageAddress[targetIndex + 1u] = color.y;
+					targetImageAddress[targetIndex + 2u] = color.z;
 				}
 			}
 			else
@@ -93,7 +95,7 @@ void Core::CpuRenderer::DispatchRays(GridSampleMethod sampleMethod, bool useMult
 				{
 					uint32_t targetIndex = rayIndex * 3u;
 					Ray ray = Ray::Build(rayIndex, cameraPosition, _viewport, invViewProjectionMatrix);
-					float3 color = _grid->SampleColor(ray);
+					float4 color = _grid->Sample(ray, filterMode, SampleMode::COLOR);
 
 					targetImageAddress[targetIndex + 0u] = color.x;
 					targetImageAddress[targetIndex + 1u] = color.y;

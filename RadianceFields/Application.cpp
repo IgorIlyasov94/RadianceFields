@@ -44,7 +44,7 @@ void Main::Application::Run()
 	cpuRenderer.SetCamera(camera);
 	cpuRenderer.SetTargetImage(resultImage);
 
-	cpuRenderer.DispatchRays(Core::GridSampleMethod::SAMPLE_DENSITY, false);
+	cpuRenderer.DispatchRays(Core::SampleMode::DENSITY, Core::FilterMode::POINT, false);
 
 	Utility::BMPSaver::Save(CPU_IMAGE_PATH, resultImage);
 }
